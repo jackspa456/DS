@@ -1,0 +1,116 @@
+#include<iostream>
+using namespace std;
+
+struct student {
+    int roll_no;
+    char name[20];
+    float marks;
+};
+
+void create(student s[], int n);
+void display(student s[], int n);
+void linear_search(student s[], int n, int key);
+void binary_search(student s[], int n, int key);
+
+int main() {
+    student s[20];
+    int n, ch, key;
+
+    do {
+        cout << "\n===== STUDENT DATABASE MENU =====";
+        cout << "\n1. Create Student Database";
+        cout << "\n2. Display Student Records";
+        cout << "\n3. Linear Search";
+        cout << "\n4. Binary Search (Roll No)";
+        cout << "\n5. Exit";
+        cout << "\nEnter choice: ";
+        cin >> ch;
+
+        switch(ch) {
+            case 1:
+                cout << "\nEnter number of students (min 10): ";
+                cin >> n;
+                create(s, n);
+                break;
+
+            case 2:
+                display(s, n);
+                break;
+
+            case 3:
+                cout << "\nEnter roll number to search: ";
+                cin >> key;
+                linear_search(s, n, key);
+                break;
+
+            case 4:
+                cout << "\nEnter roll number to search (Binary, sorted roll numbers required): ";
+                cin >> key;
+                binary_search(s, n, key);
+                break;
+
+            case 5:
+                return 0;
+
+            default:
+                cout << "\nInvalid choice!";
+        }
+    } while(ch != 5);
+}
+
+
+void create(student s[], int n) {
+    cout << "\nEnter student data in SORTED order of Roll Number for binary search to work:\n";
+    for(int i=0; i<n; i++) {
+        cout << "\nEnter Roll No: ";
+        cin >> s[i].roll_no;
+        cout << "Enter Name: ";
+        cin >> s[i].name;
+        cout << "Enter Marks: ";
+        cin >> s[i].marks;
+    }
+}
+
+
+void display(student s[], int n) {
+    cout << "\nRoll No\tName\tMarks";
+    for(int i=0; i<n; i++) {
+        cout << "\n" << s[i].roll_no << "\t" << s[i].name << "\t" << s[i].marks;
+    }
+}
+
+
+void linear_search(student s[], int n, int key) {
+    for(int i=0; i<n; i++) {
+        if(s[i].roll_no == key) {
+            cout << "\nRecord Found!";
+            cout << "\nRoll No: " << s[i].roll_no;
+            cout << "\nName: " << s[i].name;
+            cout << "\nMarks: " << s[i].marks;
+            return;
+        }
+    }
+    cout << "\nRecord Not Found!";
+}
+
+
+void binary_search(student s[], int n, int key) {
+    int l = 0, r = n - 1, mid;
+
+    while(l <= r) {
+        mid = (l + r) / 2;
+
+        if(s[mid].roll_no == key) {
+            cout << "\nRecord Found (Binary Search)!";
+            cout << "\nRoll No: " << s[mid].roll_no;
+            cout << "\nName: " << s[mid].name;
+            cout << "\nMarks: " << s[mid].marks;
+            return;
+        }
+        else if(key > s[mid].roll_no)
+            l = mid + 1;
+        else
+            r = mid - 1;
+    }
+    cout << "\nRecord Not Found (Binary Search)!";
+}

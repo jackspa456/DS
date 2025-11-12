@@ -1,0 +1,86 @@
+#include <iostream>
+#include <stdlib.h>
+#define MAX 5
+using namespace std;
+
+int main() 
+{
+    int queue[MAX], front = 0, rear = -1;
+    int count = 0, choice, data;
+    int cont = 1;
+
+    while (cont == 1)
+    {
+        cout << "\n1. Enqueue - Insert element";
+        cout << "\n2. Dequeue - Delete element";
+        cout << "\n3. Display queue";
+        cout << "\n4. Quit";
+        cout << "\n5. Peek - View front element";
+        cout << "\nEnter your choice: ";
+        cin >> choice;
+
+        switch (choice) 
+        {
+            case 1: 
+                if (count == MAX)
+                    cout << "Queue is full\n";
+                else
+                {
+                    cout << "Enter data: ";
+                    cin >> data;
+                    rear = (rear + 1) % MAX;
+                    queue[rear] = data;
+                    count++;
+                }
+                break;
+
+            case 2: 
+                if (count == 0)
+                    cout << "Queue is empty\n";
+                else
+                {
+                    data = queue[front];
+                    cout << data << " is deleted\n";
+                    front = (front + 1) % MAX;
+                    count--;
+                }
+                break;
+
+            case 3: 
+                if (count == 0)
+                    cout << "Queue is empty\n";
+                else
+                {
+                    int tempFront = front;
+                    int tempCount = count;
+
+                    cout << "Queue elements: ";
+                    while (tempCount > 0)
+                    {
+                        cout << queue[tempFront] << " ";
+                        tempFront = (tempFront + 1) % MAX;
+                        tempCount--;
+                    }
+                    cout << "\n";
+                }
+                break;
+
+            case 4: 
+                if (count == 0)
+                    cout << "Queue is empty\n";
+                else
+                    cout << "Front element: " << queue[front] << "\n";
+                break;
+
+            case 5: 
+                exit(0);
+
+            default:
+                cout << "Invalid choice\n";
+        }
+
+        cout << "Continue? [1 = Yes / 0 = No]: ";
+        cin >> cont;
+    }
+    return 0;
+}
